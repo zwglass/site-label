@@ -20,6 +20,12 @@ jobs:
       # - name: Build project
       #   run: npm run build
 
+      # 修复 HTML 路径，把 "/_next" 替换成 "/repository-name/_next"
+      - name: Fix asset paths
+        run: |
+          REPO_NAME="site-label"
+          find ./out -type f -name "*.html" -exec sed -i "s|\"/_next|\"/${REPO_NAME}/_next|g" {} +
+
       # 部署 out 文件夹到 gh-pages 分支
       - name: Deploy out folder to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
